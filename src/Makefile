@@ -40,7 +40,7 @@ ECSM_STATIC =
 STATIC_FLAG =
 endif
 
-all:build_dir sqlitecpp.a ssh_tool ecsm_import_db ecsm_tool 
+all:build_dir sqlitecpp.a ssh_tool ecs_import_db ecs_tool 
 
 build_dir:$(BUILD_DIR)
 	@test -d $(BUILD_DIR) || mkdir -p $(BUILD_DIR)
@@ -51,13 +51,13 @@ sqlitecpp.a:$(SQLITECPP_OBJS) $(SQLITE_OBJS)
 ssh_cli:$(ECS_MANAGER_OBJS) $(COMMON_OBJS)
 	$(CXX) $^ $(CCLDFLAGS) -l:sqlitecpp.a -l:libgflags.a -lssh2 -lpthread -ldl  -o $@ 
 
-ecsm_tool:$(COMMON_OBJS) ecs_db.cc ecs_manager.cc ecsm_tool.cc
+ecs_tool:$(COMMON_OBJS) ecs_db.cc ecs_manager.cc ecs_tool.cc
 	$(CXX) $^ $(CCFLAGS) $(CCLDFLAGS) -l:sqlitecpp.a  $(ECSM_STATIC) $(ECSM_LIBS) -o $@
 
 ssh_tool:$(SSH_TOOL_OBJS) $(COMMON_OBJS)
 	$(CXX) $^ $(CCFLAGS) $(ECSM_STATIC) $(SSH_LIBS) -o $@
 
-ecsm_import_db:ecsm_import_db.cc ecs_db.cc utils.cc
+ecs_import_db:ecs_import_db.cc ecs_db.cc utils.cc
 	$(CXX) $^ $(CCLDFLAGS) $(CCFLAGS) -l:sqlitecpp.a $(ECSM_STATIC) $(ECSM_LIBS) -o $@ 
 
 test:ssh2_test db_test
@@ -84,16 +84,16 @@ $(COMMON_OBJS):$(BUILD_DIR)/%.o:./%.cc
 	$(CXX) -o $@ -c $< -I. -Wall
 
 tar:
-	md5sum eu.db ssh_tool ecsm_tool ecsm_import_db   > CHEAK
-	tar -czvf ecsm_cli_$(_VERSION)_$(STATIC_FLAG)_$(_DATE).tar.gz CHEAK README ssh_tool ecsm_tool ecsm_import_db 
+	md5sum eu.db ssh_tool ecs_tool ecm_import_db   > CHEAK
+	tar -czvf ecs_cli_$(_VERSION)_$(STATIC_FLAG)_$(_DATE).tar.gz CHEAK README ssh_tool ecs_tool ecs_import_db 
 zip:
-	md5sum ssh_tool ecsm_tool ecsm_import_db  > CHEAK
-	zip --password Colin@123 ecsm_cli_$(_VERSION)_$(STATIC_FLAG)_$(_DATE).zip CHEAK README ssh_tool ecsm_tool ecsm_import_db
+	md5sum ssh_tool ecs_tool ecs_import_db  > CHEAK
+	zip --password Colin@123 ecs_cli_$(_VERSION)_$(STATIC_FLAG)_$(_DATE).zip CHEAK README ssh_tool ecs_tool ecs_import_db
 
 build:
 	mkdir build
 
 clean:
-	rm -f ssh_tool ecsm_cli sqlitecpp.a ecs_manager_cli ecsm_import_db ecsm_tool
+	rm -f ssh_tool ecs_cli sqlitecpp.a ecs_manager_cli ecs_import_db ecs_tool
 	rm -f $(SQLITE_OBJS) $(SQLITECPP_OBJS) $(ECS_MANAGER_OBJS) $(SSH_TOOL_OBJS) $(COMMON_OBJS)
 .PHONY: all clean test
