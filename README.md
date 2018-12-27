@@ -1,5 +1,5 @@
-### 一种通过ssh管理远程机器的工具
-
+### A tool to manage my ECS server
+###
 #### TODO
 - 优化
 - 命令行切换到远程机器
