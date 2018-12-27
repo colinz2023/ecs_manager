@@ -22,7 +22,7 @@ std::string _Vesroin = ECSM_TOOL_VERSION;
 std::string _USAGE = "ecsm_tool 参数:\n"
 "  --clause/-C,             SQL选择子句\n"
 "  --houseid/--house/-H,    house id\n"
-"  --euid/--eu/-E,          eu id\n"
+"   -E,                     ecs id\n"
 "  --exe/-e,                执行命令\n"
 "  --upload/--ul/-U,        上传文件\n"
 "  --download/--dl/-D,      下载文件\n\n"
